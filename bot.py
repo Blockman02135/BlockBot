@@ -54,5 +54,7 @@ async def settings(ctx, type, type2, display):
 #	if page == '1':
 		
 token = os.environ.get('BOT_TOKEN')
+
+Bot.run(str(token))
 	
 #Bot.run(open('token1.txt', 'r').read()) # Строка запуска бота
