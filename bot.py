@@ -7,7 +7,12 @@ import os
 #Start-up message
 @Bot.event #event
 async def on_ready():
-  print(f'[STARTUP]Bot Online!\n[INFO]Bot Name: {Bot.user}\n[INFO]Bot ID: {Bot.user.id}') #start up message
+  #print(f'[STARTUP]Bot Online!\n[INFO]Bot Name: {Bot.user}\n[INFO]Bot ID: {Bot.user.id}') #start up message
+  while True:
+    await Bot.change_presence(activity= discord.Game(name= '&help'))
+    await asyncio.sleep(20)
+    await Bot.change_presence(activity= discord.Game(name= '&cmds'))
+    await asyncio.sleep(20)
 
 #Bot.load_extension("jishaku")
 
