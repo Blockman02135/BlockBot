@@ -32,8 +32,8 @@ Bot.load_extension("jishaku")
   #this code will work if command be used
 #=======================================================
 
-@Bot.command()
-async def help(ctx, page):
+#@Bot.command()
+#async def help(ctx, page):
 
 
 
