@@ -18,18 +18,6 @@ def usedcmd(member, cmd):
 
 
 #Commands==========
-@Bot.command()
-async def hello(ctx):
-	await ctx.send('Hello World!')
-	
-@Bot.command()
-async def sayme(ctx):
-	await ctx.send(f'{ctx.message.author.mention} - this is your name!')
-	
-@Bot.command()
-async def sayme2(ctx):
-	await ctx.send(f'{ctx.message.author} - this is your name! But no @')
-
 
 #await Bot.change_presence(status= discord.Status.idle)
 #await Bot.change_presence(activity= discord.Game(name= 'By Blockman_'))
@@ -37,6 +25,7 @@ async def sayme2(ctx):
 
 @Bot.command()
 async def say(ctx, msg):
+  await ctx.message.delete()
 	await ctx.send(msg)
 	print(f'[INFO]Bot sended a message: {msg}')
 
@@ -48,12 +37,6 @@ async def settings(ctx, type, type2, display):
 			await Bot.change_presence(activity= discord.Game(name= display))
 			usedcmd(f'{ctx.message.author}','settings setdisplay activity')
 			print(f'[INFO]Bot changed activity display text to: {display}')
-
-
-async def clear(ctx, amount):
-    await ctx.channel.purge(limit=int(amount)+1)
-    await ctx.channel.send(embed=discord.Embed(description=f"{ctx.author.mention} отчистил чат на {amount} сообщений", color = 0xFF9900))
-    print(f":: {ctx.author} отчистил канал {ctx.channel} на {amount} сообщений")
 
 
 
