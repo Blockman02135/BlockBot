@@ -15,7 +15,7 @@ async def on_ready():
 async def hello(ctx):
 	await ctx.send('Hi')
 		
-token = os.environ.get('BOT_TOKEN')
+token = os.environ.get('EX_TOKEN')
 
 Bot.run(str(token))
 	
