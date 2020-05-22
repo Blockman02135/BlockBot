@@ -25,7 +25,7 @@ def usedcmd(member, cmd):
 
 @Bot.command()
 async def say(ctx, msg):
-  await ctz.channel.purge(limit=1)
+  await ctx.channel.purge(limit=1)
 	await ctx.send(msg)
   usedcmd(f'{ctx.message.author}','say')
 	print(f'[INFO]Bot sended a message: {msg}')
