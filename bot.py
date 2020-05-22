@@ -25,7 +25,7 @@ async def on_ready():
 
 @Bot.command()
 async def say(ctx, msg):
-        await ctx.channel.purge(limit=1)
+        #await ctx.channel.purge(limit=1)
 	await ctx.send(msg)
   #usedcmd(f'{ctx.message.author}','say')
 	#print(f'[INFO]Bot sended a message: {msg}')
