@@ -28,7 +28,7 @@ async def sayme(ctx):
 	
 @Bot.command()
 async def sayme2(ctx):
-	await ctx.send(f'{ctx.message.author} - this is your name! But no @')
+	await ctx.send(f'{ctx.message.author} - this is your real name!')
 
 
 #await Bot.change_presence(status= discord.Status.idle)
@@ -37,6 +37,7 @@ async def sayme2(ctx):
 
 @Bot.command()
 async def say(ctx, msg):
+  await ctx.channel.purge(limit=1)
 	await ctx.send(msg)
 	print(f'[INFO]Bot sended a message: {msg}')
 
