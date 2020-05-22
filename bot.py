@@ -12,8 +12,8 @@ async def on_ready():
 	print(f"Bot Online!\nName - {Bot.user}\nID - {Bot.user.id}")
 
 #def================
-def usedcmd(member, cmd):
-	print(f'{member} used bot command: {cmd}')
+#def usedcmd(member, cmd):
+#	print(f'{member} used bot command: {cmd}')
 
 
 
@@ -25,10 +25,10 @@ def usedcmd(member, cmd):
 
 @Bot.command()
 async def say(ctx, msg):
-  await ctx.channel.purge(limit=1)
+        await ctx.channel.purge(limit=1)
 	await ctx.send(msg)
-  usedcmd(f'{ctx.message.author}','say')
-	print(f'[INFO]Bot sended a message: {msg}')
+  #usedcmd(f'{ctx.message.author}','say')
+	#print(f'[INFO]Bot sended a message: {msg}')
 
 
 #@Bot.command()
