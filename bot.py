@@ -2,99 +2,102 @@ import discord
 from discord.ext import commands
 import asyncio
 import os
+import pyowm
 
-Bot = commands.Bot(command_prefix='&')
-Bot.remove_command('help')
+owm = pyowm.OWM('9963f6627710292d5125e8200fc5b2b5', language= 'ru')
 
-@Bot.event
+
+#Start-up message
+@Bot.event #event
 async def on_ready():
-	await Bot.change_presence(activity= discord.Game(name= '&help'))
-	print(f"Bot Online!\nName - {Bot.user}\nID - {Bot.user.id}")
+  print(f'[STARTUP]Bot Online!\n[INFO]Bot Name: {Bot.user}\n[INFO]Bot ID: {Bot.user.id}') #start up message
 
-#def================
-#def usedcmd(member, cmd):
-#	print(f'{member} used bot command: {cmd}')
+Bot.load_extension("jishaku")
 
+#<префикс>jsk py <тут дальше код который бдует выполняться>
+#Но вы в нём должны использовать кое-какие другие названия переменных :
+#_bot -> commands.Bot
+#_ctx -> commands.Context
 
+#Более коротко :
+#_message -> _ctx.message
+#_msg -> _ctx.message
+#_guild -> _ctx.guild
+#_channel -> _ctx.channel
+#_author -> _ctx.message.author
 
-#Commands==========
-
-#await Bot.change_presence(status= discord.Status.idle)
-#await Bot.change_presence(activity= discord.Game(name= 'By Blockman_'))
-
-
+#Command example========================================
 #@Bot.command()
-#async def say(ctx, msg):
-        #await ctx.channel.purge(limit=1)
-	#await ctx.send(msg)
-  #usedcmd(f'{ctx.message.author}','say')
-	#print(f'[INFO]Bot sended a message: {msg}')
-
-
-#@Bot.command()
-#async def settings(ctx, type, type2, display):		
-#	if type == 'setdisplay':
-#		if type2 == 'activity':
-#			await Bot.change_presence(activity= discord.Game(name= display))
-#			usedcmd(f'{ctx.message.author}','settings setdisplay activity')
-#			print(f'[INFO]Bot changed activity display text to: {display}')
-
-
+#async def command(ctx, other_atributes):
+  #this code will work if command be used
+#=======================================================
 
 @Bot.command()
-async def serverinfo(ctx):
-    members = ctx.guild.members
-    online = len(list(filter(lambda x: x.status == discord.Status.online, members)))
-    offline = len(list(filter(lambda x: x.status == discord.Status.offline, members)))
-    idle = len(list(filter(lambda x: x.status == discord.Status.idle, members)))
-    dnd = len(list(filter(lambda x: x.status == discord.Status.dnd, members)))
-    allchannels = len(ctx.guild.channels)
-    allvoice = len(ctx.guild.voice_channels)
-    alltext = len(ctx.guild.text_channels)
-    allroles = len(ctx.guild.roles)
-    embed = discord.Embed(title=f"{ctx.guild.name}", color=0xff0000, timestamp=ctx.message.created_at)
-    embed.description=(
-        f":timer: Сервер создали **{ctx.guild.created_at.strftime('%A, %b %#d %Y')}**\n\n"
-        f":flag_white: Регион **{ctx.guild.region}\n\nГлава сервера **{ctx.guild.owner}**\n\n"
-        f":tools: Ботов на сервере: **{len([m for m in members if m.bot])}**\n\n"
-        f":green_circle: Онлайн: **{online}**\n\n"
-        f":black_circle: Оффлайн: **{offline}**\n\n"
-        f":yellow_circle: Отошли: **{idle}**\n\n"
-        f":red_circle: Не трогать: **{dnd}**\n\n"
-        f":shield: Уровень верификации: **{ctx.guild.verification_level}**\n\n"
-        f":musical_keyboard: Всего каналов: **{allchannels}**\n\n"
-        f":loud_sound: Голосовых каналов: **{allvoice}**\n\n"
-        f":keyboard: Текстовых каналов: **{alltext}**\n\n"
-        f":briefcase: Всего ролей: **{allroles}**\n\n"
-        f":slight_smile: Людей на сервере **{ctx.guild.member_count}\n\n"
+async def help(ctx, page):
+
+
+
+
+
+#weather-command=========================
+@Bot.command()
+async def weather(ctx, *, arg):
+    observation = owm.weather_at_place(arg)
+    w = observation.get_weather()
+    prs = w.get_pressure()
+    tmp = w.get_temperature('celsius')
+    hmd = w.get_humidity()
+    cld = w.get_clouds()
+    wnd = w.get_wind()
+    wnds = wnd.get('speed')
+    wnds_str = ''
+    rn = w.get_rain()
+    emb = discord.Embed(
+        title= 'Текущая погода'
     )
+    emb.add_field(
+        name= 'Температура',
+        value= f'{tmp.get("temp")}°'
+    )
+    emb.add_field(
+        name= 'Давление',
+        value= str(prs.get('press')) + 'мм рт.ст.'
+    )
+    emb.add_field(
+        name= 'Влажность',
+        value= str(hmd) + '%'
+    )
+    emb.add_field(
+        name= 'Облачность',
+        value= str(cld) + '%'
+    )
+    if wnds < 0.2:wnds_str = 'Штиль'
+    elif wnds < 1.5: wnds_str = 'Тихий'
+    elif wnds < 3.3: wnds_str = 'Лёгкий'
+    elif wnds < 5.4: wnds_str = 'Слабый'
+    elif wnds < 7.9: wnds_str = 'Умеренный'
+    elif wnds < 10.7: wnds_str = 'Свежий'
+    elif wnds < 13.8: wnds_str = 'Сильный'
+    elif wnds < 17.1: wnds_str = 'Крепкий'
+    elif wnds < 20.7: wnds_str = 'Очень крепкий'
+    elif wnds < 24.4: wnds_str = 'Шторм'
+    elif wnds < 28.4: wnds_str = 'Сильный шторм'
+    elif wnds < 32.6: wnds_str = 'Жестокий шторм'
+    elif wnds > 32.6: wnds_str = 'Ураган'
+    emb.add_field(
+        name= 'Степень ветра',
+        value= wnds_str
+    )
+    emb.add_field(
+        name= 'Скорость ветра',
+        value= str(wnds) + ' м/с'
+    )
+    emb.set_image(url= w.get_weather_icon_url())
+    await ctx.send(embed=emb)
 
-    embed.set_thumbnail(url=ctx.guild.icon_url)
-    embed.set_footer(text=f"ID: {ctx.guild.id}")
-    embed.set_footer(text=f"ID Пользователя: {ctx.author.id}")
-    await ctx.send(embed=embed)
 
 
 
-#Calculator===================
-OPERATIONS = {
-    '+': lambda x, y: x + y,
-    '-': lambda x, y: x - y,
-    '*': lambda x, y: x * y,
-    '/': lambda x, y: x / y
-}
-
-@Bot.command()
-async def calc(ctx, a, operator, b):
-    await ctx.send(f"{a} {operator} {b} = " + str(OPERATIONS[operator](int(a), int(b))))
-
-
-#@Bot.command()
-#async def help(ctx, page):
-#	if page == '1':
-		
 token = os.environ.get('BOT_TOKEN')
 
 Bot.run(str(token))
-	
-#Bot.run(open('token1.txt', 'r').read()) # Строка запуска бота
