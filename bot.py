@@ -8,7 +8,7 @@ Bot.remove_command('help')
 
 @Bot.event
 async def on_ready():
-	await Bot.change_presence(activity= discord.Game(name= 'By Blockman_'))
+	await Bot.change_presence(activity= discord.Game(name= '&help'))
 	print(f"Bot Online!\nName - {Bot.user}\nID - {Bot.user.id}")
 
 #def================
@@ -27,16 +27,17 @@ def usedcmd(member, cmd):
 async def say(ctx, msg):
   await ctz.channel.purge(limit=1)
 	await ctx.send(msg)
+  usedcmd(f'{ctx.message.author}','say')
 	print(f'[INFO]Bot sended a message: {msg}')
 
 
-@Bot.command()
-async def settings(ctx, type, type2, display):		
-	if type == 'setdisplay':
-		if type2 == 'activity':
-			await Bot.change_presence(activity= discord.Game(name= display))
-			usedcmd(f'{ctx.message.author}','settings setdisplay activity')
-			print(f'[INFO]Bot changed activity display text to: {display}')
+#@Bot.command()
+#async def settings(ctx, type, type2, display):		
+#	if type == 'setdisplay':
+#		if type2 == 'activity':
+#			await Bot.change_presence(activity= discord.Game(name= display))
+#			usedcmd(f'{ctx.message.author}','settings setdisplay activity')
+#			print(f'[INFO]Bot changed activity display text to: {display}')
 
 
 
