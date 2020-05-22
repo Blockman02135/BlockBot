@@ -9,7 +9,7 @@ import os
 async def on_ready():
   print(f'[STARTUP]Bot Online!\n[INFO]Bot Name: {Bot.user}\n[INFO]Bot ID: {Bot.user.id}') #start up message
 
-Bot.load_extension("jishaku")
+#Bot.load_extension("jishaku")
 
 #<префикс>jsk py <тут дальше код который бдует выполняться>
 #Но вы в нём должны использовать кое-какие другие названия переменных :
